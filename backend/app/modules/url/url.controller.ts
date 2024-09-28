@@ -7,12 +7,8 @@ import {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { url } = req.body;
-    const { expiresAt, password } = req.query as {
-      expiresAt: string | undefined;
-      password: string | undefined;
-    };
-    const shortUrl = await urlService.create(url, expiresAt, password);
+    const { url, expiresAt, password, custom } = req.body;
+    const shortUrl = await urlService.create(url, expiresAt, password, custom);
     sendSuccessResponse(res, shortUrl, 201, "URL shortened successfully");
   } catch (error) {
     next(error);

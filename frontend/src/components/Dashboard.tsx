@@ -1,21 +1,12 @@
-import { IUrl } from "@/lib/interfaces";
 import { ShortList } from "./ShortList";
 import { UrlForm } from "./UrlForm";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
 import { SERVER_URL } from "@/lib/const";
 import { UrlsContext } from "@/contexts/UrlsContext";
 
 export default function Dashboard() {
-  // const [urls, setUrls] = useState<Url[]>([]);
-  const { urls, setUrls } = useContext(UrlsContext);
-  const handleSubmit = async (values: any) => {
-    try {
-      const response = await axios.post(`${SERVER_URL}/urls`, values);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { setUrls } = useContext(UrlsContext);
 
   const getUrls = async () => {
     try {
@@ -31,10 +22,8 @@ export default function Dashboard() {
     getUrls();
   }, []);
   return (
-    <div>
-      <UrlForm
-      // handleSubmit={handleSubmit}
-      />
+    <div className="w-3/4 m-auto flex flex-col items-center space-y-5">
+      <UrlForm />
       <ShortList />
     </div>
   );

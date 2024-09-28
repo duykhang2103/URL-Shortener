@@ -4,14 +4,11 @@ const create = z.object({
   body: z
     .object({
       url: z.string().url(),
-    })
-    .strict(),
-  query: z
-    .object({
       expiresAt: z.string().optional(),
       password: z.string().optional(),
+      custom: z.string().max(10).optional(),
     })
-    .optional(),
+    .strict(),
 });
 
 const list = z.object({

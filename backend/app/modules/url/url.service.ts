@@ -2,27 +2,47 @@ import isValid from "is-url";
 import Url from "./url.model";
 import ApiError from "../../../common/error";
 import { generateUniqueId } from "../../../utils/uniqueId";
+import { hashPassword } from "../../../utils/hash";
 
 const create = async (
   url: string,
   expiresAt: string = "",
-  password: string = ""
+  password: string = "",
+  custom: string = ""
 ) => {
   if (!isValid(url)) {
     throw new ApiError(400, "Invalid URL");
   }
-  const shortCode = await generateUniqueId();
+
+  let shortCode;
+  if (custom) {
+    if (custom == "urls") {
+      throw new ApiError(400, "Custom short code already exists");
+    }
+    const existingUrl = await Url.findOne({ shortCode: custom });
+    if (existingUrl) {
+      throw new ApiError(400, "Custom short code already exists");
+    }
+    shortCode = custom;
+  } else shortCode = await generateUniqueId();
 
   const newUrl = new Url({ original: url, shortCode });
   if (expiresAt) {
     newUrl.expiresAt = new Date(expiresAt);
   }
   if (password) {
-    newUrl.password = password;
+    const hashedPassword = await hashPassword(password);
+    newUrl.password = hashedPassword;
   }
 
   await newUrl.save();
-  return `${process.env.BASE_URL}/${shortCode}`;
+  return {
+    _id: newUrl._id,
+    original: newUrl.original,
+    shortCode: newUrl.shortCode,
+    expiresAt: newUrl.expiresAt,
+    numOfClicks: newUrl.numOfClicks,
+  };
 };
 
 const list = async (limit?: string) => {
