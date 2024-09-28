@@ -6,10 +6,12 @@ import { urlValidation } from "./url.validation";
 const router = Router();
 
 router.post(
-  "/url",
+  "/urls",
   validateRequest(urlValidation.create),
   urlController.create
 );
+
+router.get("/urls", validateRequest(urlValidation.list), urlController.list);
 
 router.get("/:code", urlController.redirect);
 

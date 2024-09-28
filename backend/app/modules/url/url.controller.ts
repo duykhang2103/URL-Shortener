@@ -8,9 +8,22 @@ import {
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { url } = req.body;
-    const { expiresAt, password } = req.params;
-    const shortUrl = await urlService.create(url);
+    const { expiresAt, password } = req.query as {
+      expiresAt: string | undefined;
+      password: string | undefined;
+    };
+    const shortUrl = await urlService.create(url, expiresAt, password);
     sendSuccessResponse(res, shortUrl, 201, "URL shortened successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const list = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { limit } = req.query as { limit: string | undefined };
+    const urls = await urlService.list(limit);
+    sendSuccessResponse(res, urls, 200, "URLs fetched successfully");
   } catch (error) {
     next(error);
   }
@@ -28,5 +41,6 @@ const redirect = async (req: Request, res: Response, next: NextFunction) => {
 
 export const urlController = {
   create,
+  list,
   redirect,
 };

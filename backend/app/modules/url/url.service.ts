@@ -25,6 +25,13 @@ const create = async (
   return `${process.env.BASE_URL}/${shortCode}`;
 };
 
+const list = async (limit?: string) => {
+  if (limit) {
+    return await Url.find().sort({ createdAt: -1 }).limit(Number(limit));
+  }
+  return await Url.find().sort({ createdAt: -1 });
+};
+
 const redirect = async (shortCode: string) => {
   const url = await Url.findOne({
     $and: [
@@ -52,4 +59,5 @@ const redirect = async (shortCode: string) => {
 export const urlService = {
   create,
   redirect,
+  list,
 };
