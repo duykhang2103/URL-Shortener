@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { UrlsContext } from "@/contexts/UrlsContext";
 import axios from "axios";
-import { SERVER_URL } from "@/lib/const";
+import { VITE_BASE_URL } from "@/lib/const";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -57,7 +57,7 @@ export function UrlForm() {
         custom: isCustomOpen ? values.custom : "",
       };
 
-      const response = await axios.post(`${SERVER_URL}/urls`, payload);
+      const response = await axios.post(`${VITE_BASE_URL}/urls`, payload);
       const data = response.data.data;
       setUrls([data, ...urls]);
     } catch (error: any) {
@@ -101,7 +101,10 @@ export function UrlForm() {
             <div className=" items-center justify-between space-x-4 px-4">
               <CollapsibleTrigger asChild>
                 <div className="flex items-center space-x-2">
-                  <Switch id="expiry-date-toggle" />
+                  <Switch
+                    onCheckedChange={setIsExpireOpen}
+                    id="expiry-date-toggle"
+                  />
                   <Label htmlFor="expiry-date-toggle">Expiry date</Label>
                 </div>
               </CollapsibleTrigger>

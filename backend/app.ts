@@ -6,6 +6,8 @@ import { urlRouter } from "./app/modules/url/url.router";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import { swaggerOptions } from "./config/swagger";
 
+console.log("Hello, world!");
+
 const app = express();
 
 app.set("trust proxy", true);

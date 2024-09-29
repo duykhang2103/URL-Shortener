@@ -1,5 +1,5 @@
 import { useToast } from "@/hooks/use-toast";
-import { SERVER_URL } from "@/lib/const";
+import { VITE_BASE_URL } from "@/lib/const";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -25,7 +25,7 @@ export default function Password() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post(`${SERVER_URL}/${code}`, {
+      const response = await axios.post(`${VITE_BASE_URL}/${code}`, {
         password: values.password,
       });
       const original = response.data.data;

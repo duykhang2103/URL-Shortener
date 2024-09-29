@@ -1,1 +1,2 @@
-export const SERVER_URL = import.meta.env.SERVER_URL || "http://localhost:8000";
+export const VITE_BASE_URL =
+  import.meta.env.VITE_BASE_URL || process.env.VITE_BASE_URL;

@@ -1,4 +1,4 @@
-import { SERVER_URL } from "@/lib/const";
+import { VITE_BASE_URL } from "@/lib/const";
 import { IUrl } from "@/lib/interfaces";
 import CopyButton from "./CopyButton";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
@@ -22,10 +22,10 @@ export default function ShortDisplay({
       <div className="md:w-2/3 w-full flex flex-row items-center justify-between">
         <div className="w-4/5 flex flex-col">
           <a
-            href={SERVER_URL + "/" + url.shortCode}
+            href={VITE_BASE_URL + "/" + url.shortCode}
             className=" md:text-xl text-sm font-bold  overflow-auto"
           >
-            {SERVER_URL + "/" + url.shortCode}
+            {VITE_BASE_URL + "/" + url.shortCode}
           </a>
           <a
             href={url.original}
@@ -35,7 +35,7 @@ export default function ShortDisplay({
             {url.original}
           </a>
         </div>
-        <CopyButton url={SERVER_URL + "/" + url.shortCode} />
+        <CopyButton url={VITE_BASE_URL + "/" + url.shortCode} />
       </div>
       <div className="md:flex hidden w-[10%] p-2 flex-row items-center justify-between border border-gray-500 rounded-xl">
         <MousePointerClick />

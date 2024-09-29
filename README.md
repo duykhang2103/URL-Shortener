@@ -2,6 +2,14 @@
 
 ## Project Name: URL Shortener
 
+### Screenshot
+
+1. Desktop
+   ![Desktop](frontend/public/default.png "Default")
+   ![Desktop](frontend/public/default-toggle.png "Default")
+
+2. Mobile
+
 ### Core Requirements
 
 1. Frontend:
@@ -27,15 +35,14 @@
 
 - [ ] Deploy the application to a publicly accessible platform
 - [x] Provide instructions for running the project locally
-      Nice-to-have Features
+
+**Nice-to-have Features**
 
 _If time permits, consider implementing one or more of these optional features_:
 
 - [ ] Password Protection: Allow users to set a password for accessing certain shortened URLs
 - [x] URL Expiry Date: Enable users to set an expiration date for shortened URLs
 - [x] Custom Short Codes: Allow users to specify their own custom short codes
-
-### Screenshot
 
 ### Installation
 
@@ -47,48 +54,48 @@ _If time permits, consider implementing one or more of these optional features_:
 
 2. Open 2 terminals:
 
-   The first terminal is used to run the server:
+- The first terminal is used to run the server:
 
-   1. Install the project dependencies
+  1.  Install the project dependencies
 
-   ```sh
-   cd backend
-   npm install
-   ```
-
-   2. Create `.env` file and configure the environment variables
-
-   ```sh
-    MONGO_URI=
-    SALT_ROUNDS=
-   ```
-
-   2. Start the server
-
-   ```sh
-     npm run dev
-   ```
-
-The second terminal is used to run the application:
-
-1. Install the project dependencies
-
-```sh
-  cd frontend
+  ```sh
+  cd backend
   npm install
-```
+  ```
 
-2. Create `.env` file and configure the environment variables
+  2.  Create `.env` file and configure the environment variables
 
-```sh
-SERVER_URL=
-```
+  ```sh
+   MONGO_URI=
+   SALT_ROUNDS=
+  ```
 
-3. Start the application
+  3.  Start the server
 
-```sh
-npm run dev
-```
+  ```sh
+    npm run dev
+  ```
+
+- The second terminal is used to run the application:
+
+  1.  Install the project dependencies
+
+  ```sh
+    cd frontend
+    npm install
+  ```
+
+  2.  Create `.env` file and configure the environment variables
+
+  ```sh
+  SERVER_URL=
+  ```
+
+  3.  Start the application
+
+  ```sh
+  npm run dev
+  ```
 
 ### Usage
 
@@ -100,6 +107,18 @@ To use the URL Shortener API, make HTTP requests to the following endpoints:
 
 ### API documentation
 
-For detailed information about the available API endpoints, please check the `BASE_URL/api-docs` , in which `BASE_URL` is your API's base URL as configured in your environment file.
+For detailed information about the available API endpoints, please check the `{BASE_URL}/api-docs` , in which `BASE_URL` is your API's base URL as configured in your environment file.
 
 ### Deployment
+
+This application has been deployed, aimed to give users better experience.
+
+- Application: https://url-shortener-fe-jzwb.onrender.com/
+- API: https://url-shortener-api-gi99.onrender.com/
+
+### Upcoming features
+
+- Personalization: allow user to signup and store their own shortened urls.
+- Secured shortened url: user can set password for their urls.
+- Caching: retrieve faster urls generated lately.
+- Advanced analytics: generate graphs analyzing generated and redirected shortened urls.

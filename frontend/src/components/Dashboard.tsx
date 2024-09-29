@@ -2,7 +2,7 @@ import { ShortList } from "./ShortList";
 import { UrlForm } from "./UrlForm";
 import { useContext, useEffect } from "react";
 import axios from "axios";
-import { SERVER_URL } from "@/lib/const";
+import { VITE_BASE_URL } from "@/lib/const";
 import { UrlsContext } from "@/contexts/UrlsContext";
 
 export default function Dashboard() {
@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   const getUrls = async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}/urls`);
+      const response = await axios.get(`${VITE_BASE_URL}/urls`);
       setUrls(response.data.data);
     } catch (error) {
       console.error(error);

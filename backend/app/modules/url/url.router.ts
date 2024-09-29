@@ -1,27 +1,3 @@
-// /**
-//  * @swagger
-//  * components:
-//  *  schemas:
-//  *   Url:
-//  *    type: object
-//  *    required:
-//  *    - url
-//  *    properties:
-//  *      url:
-//  *        type: string
-//  *        format: url
-//  *      expiresAt:
-//  *        type: string
-//  *        format: date-time
-//  *        nullable: true
-//  *      password:
-//  *        type: string
-//  *        nullable: true
-//  *      custom:
-//  *        type: string
-//  *        nullable: true
-//  *
-
 import { Router } from "express";
 import { urlController } from "./url.controller";
 import { validateRequest } from "../../middlewares/validateRequest";
