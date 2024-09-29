@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { custom, z } from "zod";
+import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -10,7 +10,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
-import { CalendarIcon, CaretSortIcon } from "@radix-ui/react-icons";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import { useContext, useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { format } from "date-fns";
@@ -50,24 +50,22 @@ export function UrlForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post(`${SERVER_URL}/urls`, {
+      const payload = {
         url: values.original,
-        expiresAt: values.expiresAt,
-        password: values.password,
-        custom: values.custom,
-      });
-      if (!response.data.success) {
-        toast({
-          title: "Failed to shorten the URL",
-          description: response.data.message,
-          // status: "error",
-        });
-        return;
-      }
+        expiresAt: isExpireOpen ? values.expiresAt : "",
+        password: isPasswordOpen ? values.password : "",
+        custom: isCustomOpen ? values.custom : "",
+      };
+
+      const response = await axios.post(`${SERVER_URL}/urls`, payload);
       const data = response.data.data;
       setUrls([data, ...urls]);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      toast({
+        title: "Failed to shorten the URL",
+        description: error.response.data.message,
+        variant: "error",
+      });
     }
   };
 
@@ -84,7 +82,11 @@ export function UrlForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Shorten a link here..." {...field} />
+                  <Input
+                    className="h-[50px] md:text-xl text-sm"
+                    placeholder="Shorten a link here..."
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,7 +96,7 @@ export function UrlForm() {
           <Collapsible
             open={isExpireOpen}
             onOpenChange={setIsExpireOpen}
-            className="h-12 w-1/2 flex flex-row items-center justify-between space-y-2"
+            className="h-12 md:w-1/2 w-3/4 flex flex-row items-center justify-between space-y-2"
           >
             <div className=" items-center justify-between space-x-4 px-4">
               <CollapsibleTrigger asChild>
@@ -104,11 +106,11 @@ export function UrlForm() {
                 </div>
               </CollapsibleTrigger>
             </div>
-            <CollapsibleContent className="w-3/5 space-y-2">
+            <CollapsibleContent className="md:w-3/5 w-full space-y-2">
               <FormField
                 control={form.control}
                 name="expiresAt"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormControl>
                       <Popover>
@@ -116,7 +118,7 @@ export function UrlForm() {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
+                              " justify-start text-left font-normal",
                               !date && "text-muted-foreground"
                             )}
                           >
@@ -154,12 +156,16 @@ export function UrlForm() {
           <Collapsible
             open={isPasswordOpen}
             onOpenChange={setIsPasswordOpen}
-            className="h-12 w-1/2 flex flex-row items-center justify-between space-y-2"
+            className="h-12 md:w-1/2  flex flex-row items-center justify-between space-y-2"
           >
             <div className=" items-center justify-between space-x-4 px-4">
               <CollapsibleTrigger asChild>
                 <div className="flex items-center space-x-2">
-                  <Switch id="password-toggle" />
+                  <Switch
+                    disabled
+                    onCheckedChange={setIsPasswordOpen}
+                    id="password-toggle"
+                  />
                   <Label htmlFor="password-toggle">Password</Label>
                 </div>
               </CollapsibleTrigger>
@@ -183,12 +189,15 @@ export function UrlForm() {
           <Collapsible
             open={isCustomOpen}
             onOpenChange={setIsCustomOpen}
-            className="h-12 w-1/2 flex flex-row items-center justify-between space-y-2"
+            className="h-12 md:w-1/2 flex flex-row items-center justify-between space-y-2"
           >
             <div className=" items-center justify-between space-x-4 px-4">
               <CollapsibleTrigger asChild>
                 <div className="flex items-center space-x-2">
-                  <Switch id="custom-toggle" />
+                  <Switch
+                    onCheckedChange={setIsCustomOpen}
+                    id="custom-toggle"
+                  />
                   <Label htmlFor="custom-toggle">Custom Code</Label>
                 </div>
               </CollapsibleTrigger>
@@ -212,7 +221,10 @@ export function UrlForm() {
             </CollapsibleContent>
           </Collapsible>
         </div>
-        <Button className="w-1/6 " type="submit">
+        <Button
+          className="md:w-1/6 w-1/5 h-[50px] md:text-xl text-xs"
+          type="submit"
+        >
           Shorten it!
         </Button>
       </form>

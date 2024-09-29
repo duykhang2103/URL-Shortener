@@ -1,17 +1,29 @@
 import { SERVER_URL } from "@/lib/const";
 import { IUrl } from "@/lib/interfaces";
 import CopyButton from "./CopyButton";
-import { ArrowRightIcon, HandIcon } from "@radix-ui/react-icons";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { MousePointerClick } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default function ShortDisplay({ url }: { url: IUrl }) {
+export default function ShortDisplay({
+  url,
+  isLatest,
+}: {
+  url: IUrl;
+  isLatest: boolean;
+}) {
   return (
-    // <div className="w-full flex flex-row ">
-    <div className="relative w-full mb-4 p-2 flex flex-row items-center justify-between border-spacing-1 border rounded-sm">
-      <div className="w-2/3 flex flex-row items-center justify-between">
+    <div
+      className={cn(
+        "relative w-full mb-4 p-2 flex flex-row items-center justify-between border-spacing-1 border rounded-sm",
+        isLatest ? "border-green-500 border-2" : "border-gray-500"
+      )}
+    >
+      <div className="md:w-2/3 w-full flex flex-row items-center justify-between">
         <div className="w-4/5 flex flex-col">
           <a
             href={SERVER_URL + "/" + url.shortCode}
-            className=" text-xl font-bold  overflow-auto"
+            className=" md:text-xl text-sm font-bold  overflow-auto"
           >
             {SERVER_URL + "/" + url.shortCode}
           </a>
@@ -25,11 +37,10 @@ export default function ShortDisplay({ url }: { url: IUrl }) {
         </div>
         <CopyButton url={SERVER_URL + "/" + url.shortCode} />
       </div>
-      <div className="text-l w-[15%] p-2 flex flex-row items-center justify-between border border-gray-500 rounded-xl">
-        <HandIcon className="h-4 w-4 mt-1 inline" />
-        <p className="text-l text-gray-500">{url.numOfClicks} clicks!</p>
+      <div className="md:flex hidden w-[10%] p-2 flex-row items-center justify-between border border-gray-500 rounded-xl">
+        <MousePointerClick />
+        <p className="text-sm text-gray-500">{url.numOfClicks} clicks!</p>
       </div>
-      {/* </div> */}
       {url.expiresAt && (
         <div className="absolute right-[-20px] top-[-15px] text-sm p-1 border border-gray-500 rounded-xl bg-black text-white">
           Expires in{" "}

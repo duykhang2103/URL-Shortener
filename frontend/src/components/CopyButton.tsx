@@ -16,11 +16,12 @@ export default function CopyButton({ url }: { url: string }) {
         <TooltipTrigger asChild>
           {isCopied ? (
             <Button className="w-2/5" variant="outline">
-              Copied! <CheckIcon className="ml-2 h-4 w-4" />
+              <p className="md:block hidden">Copied!</p>
+              <CheckIcon className=" h-4 w-4" />
             </Button>
           ) : (
             <Button
-              className="w-2/5"
+              className=" w-2/5 "
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();
@@ -29,7 +30,9 @@ export default function CopyButton({ url }: { url: string }) {
                 setTimeout(() => setIsCopied(false), 2000);
               }}
             >
-              Copy to Clipboard <ClipboardIcon className="ml-2 h-4 w-4" />
+              <p className="md:block hidden">Copy to Clipboard</p>
+
+              <ClipboardIcon className=" h-4 w-4" />
             </Button>
           )}
         </TooltipTrigger>

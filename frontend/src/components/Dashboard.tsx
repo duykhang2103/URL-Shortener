@@ -18,11 +18,13 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    console.log(SERVER_URL);
     getUrls();
   }, []);
   return (
-    <div className="w-3/4 m-auto flex flex-col items-center space-y-5">
+    <div className="w-3/4 m-auto mt-5 flex flex-col items-center space-y-5">
+      <h1 className="md:mb-10 mb-2 md:text-5xl font-bold text-3xl">
+        URL SHORTENER
+      </h1>
       <UrlForm />
       <ShortList />
     </div>

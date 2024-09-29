@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
 import { IUrl } from "@/lib/interfaces";
 import { createContext, useState } from "react";
 
@@ -26,7 +25,7 @@ export function UrlsContextProvider({
       }}
     >
       {children}
-      <Toaster />
+      {/* <Toaster /> */}
     </UrlsContext.Provider>
   );
 }

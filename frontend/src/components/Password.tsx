@@ -2,7 +2,6 @@ import { useToast } from "@/hooks/use-toast";
 import { SERVER_URL } from "@/lib/const";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { redirect, useParams } from "react-router-dom";
 import { z } from "zod";
@@ -24,25 +23,19 @@ export default function Password() {
     },
   });
 
-  // useEffect(() => {}, [code]);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post(`${SERVER_URL}/${code}`, {
         password: values.password,
       });
-      if (!response.data.success) {
-        toast({
-          title: "Failed to shorten the URL",
-          description: response.data.message,
-          // status: "error",
-        });
-        return;
-      }
       const original = response.data.data;
       redirect(original);
     } catch (error) {
-      console.error(error);
+      toast({
+        title: "Invalid password",
+        description: "Please enter a valid password",
+        variant: "error",
+      });
     }
   };
 
