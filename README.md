@@ -1,14 +1,15 @@
-## Nguyen Duy Khang
-
-## Project Name: URL Shortener
+## URL Shortener
 
 ### Screenshot
 
 1. Desktop
+
    ![Desktop](frontend/public/default.png "Default")
    ![Desktop](frontend/public/default-toggle.png "Default")
 
 2. Mobile
+
+   ![Desktop](frontend/public/mobile.png "Default")
 
 ### Core Requirements
 
@@ -33,7 +34,7 @@
 
 4. Deployment:
 
-- [ ] Deploy the application to a publicly accessible platform
+- [x] Deploy the application to a publicly accessible platform
 - [x] Provide instructions for running the project locally
 
 **Nice-to-have Features**
@@ -43,6 +44,13 @@ _If time permits, consider implementing one or more of these optional features_:
 - [ ] Password Protection: Allow users to set a password for accessing certain shortened URLs
 - [x] URL Expiry Date: Enable users to set an expiration date for shortened URLs
 - [x] Custom Short Codes: Allow users to specify their own custom short codes
+
+### Techstack
+
+1. Language: TypeScript
+2. Frontend: React, shadcn/ui
+3. Backend: Express
+4. Database: MongoDB
 
 ### Installation
 
@@ -88,7 +96,7 @@ _If time permits, consider implementing one or more of these optional features_:
   2.  Create `.env` file and configure the environment variables
 
   ```sh
-  SERVER_URL=
+  VITE_BASE_URL=
   ```
 
   3.  Start the application
@@ -101,13 +109,13 @@ _If time permits, consider implementing one or more of these optional features_:
 
 To use the URL Shortener API, make HTTP requests to the following endpoints:
 
-- **POST** `{BASE_URL}/urls`: Shorten a long URL.
-- **GET** `{BASE_URL}/urls`: Retrieve all short url created.
-- **GET** `{BASE_URL}/{code}`: Redirect to the original URL.
+- **POST** `{VITE_BASE_URL}/urls`: Shorten a long URL.
+- **GET** `{VITE_BASE_URL}/urls`: Retrieve all short url created.
+- **GET** `{VITE_BASE_URL}/{code}`: Redirect to the original URL.
 
 ### API documentation
 
-For detailed information about the available API endpoints, please check the `{BASE_URL}/api-docs` , in which `BASE_URL` is your API's base URL as configured in your environment file.
+For detailed information about the available API endpoints, please check the `{VITE_BASE_URL}/api-docs` , in which `VITE_BASE_URL` is your API's base URL as configured in your environment file.
 
 ### Deployment
 
@@ -116,7 +124,7 @@ This application has been deployed, aimed to give users better experience.
 - Application: https://url-shortener-fe-jzwb.onrender.com/
 - API: https://url-shortener-api-gi99.onrender.com/
 
-### Upcoming features
+### Future improvements
 
 - Personalization: allow user to signup and store their own shortened urls.
 - Secured shortened url: user can set password for their urls.
