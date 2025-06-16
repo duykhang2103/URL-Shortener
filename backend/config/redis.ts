@@ -5,16 +5,20 @@ export const startRedis = () => {
   const redis = new Redis({
     host: keys.REDIS_HOST,
     port: keys.REDIS_PORT,
-    username: process.env.REDIS_USERNAME || undefined,
-    password: process.env.REDIS_PASSWORD || undefined,
+    username: keys.REDIS_USERNAME,
+    password: keys.REDIS_PASSWORD,
+    tls: keys.NODE_ENV === "development" ? {} : undefined,
   });
-
-  redis.on("connect", () => {
+  redis.on("ready", () => {
     console.log("Connected to Redis");
   });
 
   redis.on("error", (err) => {
     console.error("Redis error:", err);
+  });
+
+  redis.on("end", () => {
+    console.log("Redis connection closed");
   });
 
   return redis;
