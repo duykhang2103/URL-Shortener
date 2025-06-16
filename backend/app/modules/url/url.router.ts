@@ -114,6 +114,6 @@ router.get("/urls", validateRequest(urlValidation.list), urlController.list);
  *       404:
  *         description: Not Found
  */
-router.get("/:code", urlController.redirect);
+router.get("/urls/:code", urlController.redirect);
 
 export const urlRouter = router;
