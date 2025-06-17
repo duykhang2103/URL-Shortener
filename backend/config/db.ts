@@ -4,10 +4,9 @@ import { keys } from "./const";
 
 const connectToDB = async () => {
   try {
-    await mongoose.connect(`mongodb://${keys.MONGO_HOST}:${keys.MONGO_PORT}`, {
+    await mongoose.connect(keys.MONGO_URI, {
       dbName: keys.MONGO_DB_NAME,
     });
-
     infoLogger.info("Connected to MongoDB");
   } catch (error) {
     console.log(keys.MONGO_URI);

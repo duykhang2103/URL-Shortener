@@ -19,8 +19,7 @@ services:
     env_file:
       - .env
     environment:
-      - REDIS_HOST=redis # Add this line
-      - REDIS_PORT=6379 # Add this line (optional, since 6379 is default)
+      - REDIS_HOST=redis
     depends_on:
       - mongodb
       - redis
@@ -40,6 +39,15 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - url-shortener-network
+
+  kafka:
+    image: bitnami/kafka:3.5.2-debian-12-r30
+    ports:
+      - "9092:9092"
+    env_file:
+      - .env
     networks:
       - url-shortener-network
 

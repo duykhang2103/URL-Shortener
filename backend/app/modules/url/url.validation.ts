@@ -17,7 +17,14 @@ const list = z.object({
   }),
 });
 
+const deleteUrl = z.object({
+  params: z.object({
+    code: z.string().max(10),
+  }),
+});
+
 export const urlValidation = {
   create,
   list,
+  deleteUrl,
 };

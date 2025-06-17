@@ -14,8 +14,13 @@ const SALT_ROUNDS = process.env.SALT_ROUNDS as string;
 
 const REDIS_PORT = process.env.REDIS_PORT || "6379";
 const REDIS_HOST = process.env.REDIS_HOST || "localhost";
-const REDIS_USERNAME = process.env.REDIS_USERNAME;
-const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
+const REDIS_USERNAME = process.env.REDIS_USERNAME || undefined;
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD || undefined;
+
+const RABBITMQ_HOST = process.env.RABBITMQ_HOST || "localhost";
+const RABBITMQ_PORT = process.env.RABBITMQ_PORT || "5672";
+const RABBITMQ_USERNAME = process.env.RABBITMQ_USERNAME || undefined;
+const RABBITMQ_PASSWORD = process.env.RABBITMQ_PASSWORD || undefined;
 
 export const keys = {
   NODE_ENV,
@@ -29,4 +34,8 @@ export const keys = {
   REDIS_HOST,
   REDIS_USERNAME: REDIS_USERNAME || undefined,
   REDIS_PASSWORD: REDIS_PASSWORD || undefined,
+  RABBITMQ_HOST,
+  RABBITMQ_PORT: parseInt(RABBITMQ_PORT, 10),
+  RABBITMQ_USERNAME: RABBITMQ_USERNAME || undefined,
+  RABBITMQ_PASSWORD: RABBITMQ_PASSWORD || undefined,
 };

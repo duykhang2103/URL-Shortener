@@ -50,11 +50,7 @@ const router = Router();
  *                   numOfClicks:
  *                     type: number
  */
-router.post(
-  "/urls",
-  validateRequest(urlValidation.create),
-  urlController.create
-);
+router.post("/", validateRequest(urlValidation.create), urlController.create);
 
 /**
  * @swagger
@@ -92,7 +88,7 @@ router.post(
  *                    numOfClicks:
  *                      type: number
  */
-router.get("/urls", validateRequest(urlValidation.list), urlController.list);
+router.get("/", validateRequest(urlValidation.list), urlController.list);
 
 /**
  * @swagger
@@ -114,6 +110,28 @@ router.get("/urls", validateRequest(urlValidation.list), urlController.list);
  *       404:
  *         description: Not Found
  */
-router.get("/urls/:code", urlController.redirect);
+router.get("/:code", urlController.redirect);
+
+/**
+ * @swagger
+ * /urls/{id}:
+ *   delete:
+ *     summary: Delete a short URL by ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the URL to delete.
+ *     responses:
+ *       200:
+ *         description: OK
+ */
+router.delete(
+  "/:id",
+  validateRequest(urlValidation.deleteUrl),
+  urlController.deleteUrl
+);
 
 export const urlRouter = router;

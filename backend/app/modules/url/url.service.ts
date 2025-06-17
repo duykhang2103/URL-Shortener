@@ -4,6 +4,7 @@ import ApiError from "../../../common/error";
 import { generateUniqueId } from "../../../utils/uniqueId";
 import { hashPassword } from "../../../utils/hash";
 import { redis } from "../../../config/redis";
+import { kafkaProducer } from "../../../config/queue";
 
 const create = async (
   url: string,
@@ -37,7 +38,7 @@ const create = async (
   }
 
   await newUrl.save();
-  await redis.set(
+  redis.set(
     `url:${newUrl.shortCode}`,
     JSON.stringify({
       _id: newUrl._id,
@@ -49,6 +50,15 @@ const create = async (
     "EX",
     60 * 60 * 24 * 30 // Cache for 30 days
   );
+  kafkaProducer.sendMessage("url-created", [
+    {
+      _id: newUrl._id,
+      original: newUrl.original,
+      shortCode: newUrl.shortCode,
+      expiresAt: newUrl.expiresAt,
+      numOfClicks: newUrl.numOfClicks,
+    },
+  ]);
 
   return {
     _id: newUrl._id,
@@ -81,11 +91,11 @@ const redirect = async (shortCode: string) => {
   if (!shortCode) {
     throw new ApiError(400, "Short code is required");
   }
-  // Check Redis cache first
+  // check cache first
   const cachedUrl = await redis.get(`url:${shortCode}`);
   if (cachedUrl) {
     const urlData = JSON.parse(cachedUrl);
-    // Check if the URL is expired
+    // check if the URL is expired
     if (urlData.expiresAt && new Date(urlData.expiresAt) <= new Date()) {
       throw new ApiError(404, "URL not found");
     }
@@ -97,7 +107,6 @@ const redirect = async (shortCode: string) => {
     return urlData.original;
   }
 
-  // If not found in cache, query the database
   const url = await Url.findOne({
     $and: [
       { shortCode },
@@ -121,8 +130,35 @@ const redirect = async (shortCode: string) => {
   return url.original;
 };
 
+const deleteUrl = async (shortCode: string) => {
+  if (!shortCode) {
+    throw new ApiError(400, "Short code is required");
+  }
+  const url = await Url.findOneAndDelete({ shortCode });
+  if (!url) {
+    throw new ApiError(404, "URL not found");
+  }
+
+  // Remove from cache
+  redis.del(`url:${shortCode}`);
+
+  // Send message to Kafka to delete the URL
+  kafkaProducer.sendMessage("url-deleted", [
+    {
+      _id: url._id,
+      original: url.original,
+      shortCode: url.shortCode,
+      expiresAt: url.expiresAt,
+      numOfClicks: url.numOfClicks,
+    },
+  ]);
+
+  return { message: "URL deleted successfully" };
+};
+
 export const urlService = {
   create,
   redirect,
   list,
+  deleteUrl,
 };

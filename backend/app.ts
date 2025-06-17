@@ -19,7 +19,7 @@ app.use(
   swaggerUi.setup(swaggerJsDoc(swaggerOptions))
 );
 
-app.use("/", urlRouter);
+app.use("/urls", urlRouter);
 
 // global error handler
 app.use(globalErrorHandler);

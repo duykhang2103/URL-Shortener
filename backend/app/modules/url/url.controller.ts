@@ -35,8 +35,19 @@ const redirect = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const deleteUrl = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { code } = req.params;
+    await urlService.deleteUrl(code);
+    sendSuccessResponse(res, null, 204, "URL deleted successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const urlController = {
   create,
   list,
   redirect,
+  deleteUrl,
 };
