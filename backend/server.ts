@@ -5,12 +5,12 @@ import { kafkaConsumer, kafkaProducer } from "./config/queue";
 
 const bootstrap = async () => {
   try {
+    console.log(`Environment: ${keys.NODE_ENV}`);
     await connectToDB();
     await kafkaConsumer.start();
     await kafkaProducer.connect();
     app.listen(keys.PORT, () => {
       console.log(`Server is running on port ${keys.PORT}`);
-      console.log(`Environment: ${keys.NODE_ENV}`);
     });
     process.on("SIGINT", async () => {
       console.log("SIGINT received, shutting down gracefully...");
