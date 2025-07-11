@@ -41,24 +41,22 @@ const create = async (
   redis.set(
     `url:${newUrl.shortCode}`,
     JSON.stringify({
-      _id: newUrl._id,
       original: newUrl.original,
       shortCode: newUrl.shortCode,
-      expiresAt: newUrl.expiresAt,
-      numOfClicks: newUrl.numOfClicks,
     }),
     "EX",
     60 * 60 * 24 * 30 // Cache for 30 days
   );
-  kafkaProducer.sendMessage("url-created", [
+  const mes = await kafkaProducer.sendMessage("url-created", [
     {
-      _id: newUrl._id,
+      // _id: newUrl._id,
       original: newUrl.original,
       shortCode: newUrl.shortCode,
       expiresAt: newUrl.expiresAt,
-      numOfClicks: newUrl.numOfClicks,
+      // numOfClicks: newUrl.numOfClicks,
     },
   ]);
+  console.log("Message sent to Kafka:", mes);
 
   return {
     _id: newUrl._id,
@@ -145,11 +143,11 @@ const deleteUrl = async (shortCode: string) => {
   // Send message to Kafka to delete the URL
   kafkaProducer.sendMessage("url-deleted", [
     {
-      _id: url._id,
+      // _id: url._id,
       original: url.original,
       shortCode: url.shortCode,
-      expiresAt: url.expiresAt,
-      numOfClicks: url.numOfClicks,
+      // expiresAt: url.expiresAt,
+      // numOfClicks: url.numOfClicks,
     },
   ]);
 

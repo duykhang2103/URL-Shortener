@@ -22,6 +22,9 @@ const RABBITMQ_PORT = process.env.RABBITMQ_PORT || "5672";
 const RABBITMQ_USERNAME = process.env.RABBITMQ_USERNAME || undefined;
 const RABBITMQ_PASSWORD = process.env.RABBITMQ_PASSWORD || undefined;
 
+const KAFKA_HOST = process.env.KAFKA_HOST || "localhost";
+const KAFKA_PORT = process.env.KAFKA_PORT || "9092";
+
 export const keys = {
   NODE_ENV,
   PORT: parseInt(PORT, 10),
@@ -38,4 +41,6 @@ export const keys = {
   RABBITMQ_PORT: parseInt(RABBITMQ_PORT, 10),
   RABBITMQ_USERNAME: RABBITMQ_USERNAME || undefined,
   RABBITMQ_PASSWORD: RABBITMQ_PASSWORD || undefined,
+  KAFKA_HOST,
+  KAFKA_PORT: parseInt(KAFKA_PORT, 10),
 };
